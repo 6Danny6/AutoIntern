@@ -1,0 +1,22 @@
+
+from selenium.webdriver.common.by import By
+from behave import given, when, then
+from time import sleep
+
+LAPTOP = (By.XPATH, '//span[text()="HP 15 Laptop"]')
+
+
+@given("Goto Product Page")
+def goto_block_page(context):
+    context.driver.get('https://gettop.us/product/asus-chromebook-flip-c434-2-in-1/')
+
+
+@when("Click on Product")
+def you_may_also_like_product(context):
+    context.driver.find_element(*LAPTOP).click()
+
+
+@then("Verify product redirects to new webpage")
+def block_product_redirects_new_web_page(context):
+    context.expected_result = ("https://gettop.us/product/hp-15-laptop/")
+    sleep(3)
