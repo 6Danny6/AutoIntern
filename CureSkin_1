@@ -1,0 +1,7 @@
+Feature: Cure Skin Products
+
+  Scenario: User can search for a product
+  Given Open main page
+  When click on magnify glass
+  And Search for CureSkin gel
+  Then Verify CureSkin gel opened

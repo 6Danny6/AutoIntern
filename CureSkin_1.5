@@ -1,0 +1,34 @@
+from selenium.webdriver.common.by import By
+from behave import given, when, then
+from time import sleep
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+
+MAGNIFY = (By.CSS_SELECTOR, ".modal__toggle-open")
+SEARCH = (By.CSS_SELECTOR, ".search__input")
+BUTTON = (By.CSS_SELECTOR, ".search__button")
+
+
+@given('Open main page')
+def open_cure_skin(context):
+    context.driver.get('https://shop.cureskin.com.')
+
+
+@when('click on magnify glass')
+def click_magnify_icon(context):
+    context.driver.find_element(*MAGNIFY).click()
+
+
+@when('Search for {product}')
+def search_for_skin_product(context, product):
+    element = context.driver.find_element(*SEARCH)
+    element.clear()
+    element.send_keys(product)
+    context.driver.find_element(*BUTTON).click()
+
+
+@then('Verify CureSkin gel opened')
+def verify_page_results(context):
+    context.driver.wait.until(EC.url_contains('https://shop.cureskin.com/search?q=CureSkin+gel&options%5Bprefix%5D=last'))
+    print('Current window:', context.driver.current_window_handle)
