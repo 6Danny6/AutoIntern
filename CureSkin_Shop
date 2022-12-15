@@ -1,0 +1,36 @@
+from selenium.webdriver.common.by import By
+from behave import given, when, then
+from time import sleep
+from selenium.webdriver.support import expected_conditions as EC
+
+SKIN_PRODUCT = (By.XPATH, "//a[@href='/products/cureskin-mineral-sunscreen-matte-finish-spf-50-pa-50g']")
+ADD_CART = (By.CSS_SELECTOR, ".product-form__submit")
+VIEW_CART = (By.ID, "cart-notification-button")
+NOTIFICATION = (By.ID, 'cart-notification')
+
+
+@given('Open Product Details page')
+def open_product_details(context):
+    context.driver.get("https://shop.cureskin.com/collections/sun-protection")
+
+
+@when('Click on on second product image')
+def sun_screen_product(context):
+    context.driver.find_element(*SKIN_PRODUCT).click()
+
+
+@when('Click to add product to cart')
+def add_product_to_cart(context):
+    context.driver.find_element(*ADD_CART).click()
+    sleep(3)
+
+
+@when('Click View my cart')
+def view_my_cart(context):
+    context.driver.find_element(*VIEW_CART).click()
+
+
+@then('Verify user is taken to the cart page (Your Shopping Cart)')
+def user_taken_to_cart_page(context):
+    context.driver.wait.until(EC.url_contains("https://shop.cureskin.com/cart"))
+    print('Current window:', context.driver.current_window_handle)
